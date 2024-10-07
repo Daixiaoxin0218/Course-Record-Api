@@ -6,6 +6,8 @@ CREATE TABLE `User` (
     `phone` VARCHAR(191) NOT NULL,
     `monthly_sales` INTEGER NULL,
     `total_sales` INTEGER NULL,
+    `createdAt` DATETIME(3) NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `updatedAt` DATETIME(3) NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -22,7 +24,10 @@ CREATE TABLE `Post` (
     `deadline_date` VARCHAR(191) NOT NULL,
     `stop_card` VARCHAR(191) NULL,
     `resume_classes` VARCHAR(191) NULL,
+    `register_time` VARCHAR(191) NULL,
     `authorId` INTEGER NOT NULL,
+    `createdAt` DATETIME(3) NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `updatedAt` DATETIME(3) NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;

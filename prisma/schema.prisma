@@ -21,6 +21,8 @@ model User {
   monthly_sales Int?
   total_sales   Int?
   posts         Post[]
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
 }
 
 model Post {
@@ -34,6 +36,9 @@ model Post {
   deadline_date  String
   stop_card      String?
   resume_classes String?
+  register_time  String?
   author         User      @relation(fields: [authorId], references: [id])
   authorId       Int
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
 }

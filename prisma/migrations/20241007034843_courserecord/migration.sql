@@ -20,6 +20,7 @@ CREATE TABLE `Post` (
     `class_hour` INTEGER NOT NULL,
     `every_class` INTEGER NOT NULL,
     `surplus` INTEGER NOT NULL,
+    `state` INTEGER NULL,
     `start_date` VARCHAR(191) NOT NULL,
     `deadline_date` VARCHAR(191) NOT NULL,
     `stop_card` VARCHAR(191) NULL,

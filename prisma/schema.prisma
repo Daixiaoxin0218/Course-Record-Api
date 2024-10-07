@@ -32,6 +32,7 @@ model Post {
   class_hour     Int
   every_class    Int
   surplus        Int
+  state          Int?
   start_date     String
   deadline_date  String
   stop_card      String?

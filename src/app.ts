@@ -1,5 +1,6 @@
 import express from "express";
 import { PrismaClient } from "@prisma/client";
+import { convertCourseValuesToNumbers } from './method'
 const prisma = new PrismaClient();
 const app = express();
 const port: number = 3000;
@@ -59,21 +60,14 @@ app.post("/user/update", async (req, res) => {
     where: { id: Number(id) },
     data: { name, phone, sex },
   });
-  res.json({ data: { data, message: "更新成功" } });
+  res.json({ data: { data, message: "修改成功" } });
 });
 
 // 课程新增
 app.post("/course/add", async (req, res) => {
-  req.body.course_price = parseInt(req.body.course_price);
-  req.body.class_hour = parseInt(req.body.class_hour);
-  req.body.surplus = parseInt(req.body.surplus);
-  const every_class = req.body.course_price / req.body.class_hour;
-
+  const courseData = convertCourseValuesToNumbers(req.body)
   const data = await prisma.post.create({
-    data: {
-      ...req.body,
-      every_class,
-    },
+    data: { ...courseData },
   });
   res.json({ data: { data, message: "添加成功" } });
 });
@@ -81,11 +75,12 @@ app.post("/course/add", async (req, res) => {
 // 课程更新
 app.post("/course/update", async (req, res) => {
   const { id } = req.body;
+  const courseData = convertCourseValuesToNumbers(req.body)
   const data = await prisma.post.update({
     where: { id: Number(id) },
-    data: { ...req.body },
+    data: { ...courseData },
   });
-  res.json({ data: { data, message: "更新成功" } });
+  res.json({ data: { data, message: "修改成功" } });
 });
 
 // 课程删除

@@ -98,6 +98,7 @@ app.post("/course/update", async (req, res) => {
       data: { ...courseData },
     });
     res.json({ data: { data, message: "修改成功" } });
+    updateUserTotalSales();
   } catch (error) {
     return res.status(400).json({ data: { status: 400, message: "修改失败" } });
   }
@@ -117,6 +118,37 @@ app.post("/course/delete", async (req, res) => {
     return res.status(400).json({ data: { status: 400, message: "删除失败" } });
   }
 });
+
+// 计算总销售额并更新
+async function updateUserTotalSales() {
+  const users = await prisma.user.findMany({
+    include: {
+      posts: true,
+    },
+  });
+  users.forEach(async (user: any) => {
+    const totalSales = user.posts.reduce(
+      (
+        sum: number,
+        post: { class_hour: number; surplus: number; every_class: number }
+      ) => {
+        const a: number = post.class_hour - post.surplus;
+        const b: number = a * post.every_class;
+        return sum + b;
+      },
+      0
+    );
+
+    await prisma.user.update({
+      where: {
+        id: user.id,
+      },
+      data: {
+        total_sales: totalSales,
+      },
+    });
+  });
+}
 
 app.listen(port, () => {
   console.log(`App listening on port ${port}`);
